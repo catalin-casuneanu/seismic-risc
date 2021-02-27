@@ -8,7 +8,7 @@ export default () => {
   return (
     <Row type="flex" justify="space-around" style={{ margin: '1rem', textAlign: 'left' }}>
       <Col sm={24} md={22}>
-        <Paragraph>
+        <Paragraph style={{ paddingBottom: '2rem' }}>
           <Trans>
             In the research and design program developed by Code for Romania, we focused on the
             non-governmental sector to identify the hotspots of civil society and to intervene with

@@ -7,7 +7,7 @@ import telegramLogo from '../images/telegram.svg';
 
 function Sharing() {
   return (
-    <div style={{ textAlign: 'left', margin: '1rem 4rem 3rem 4rem' }}>
+    <div className="sharing">
       <Trans> Distribuie pe:</Trans>
       <a
         target="_blank"

@@ -19,7 +19,7 @@
     "extractedComments": []
   },
   "About This Project": {
-    "translation": "Despre Proiect",
+    "translation": "Despre proiect",
     "origin": [
       [
         "containers/about/TitleFragment.js",
@@ -160,7 +160,6 @@
     "extractedComments": []
   },
   "Despre proiect": {
-    "translation": "",
     "origin": [
       [
         "containers/about/TitleFragment.js",
