@@ -5,6 +5,7 @@ import { i18n } from '@lingui/core';
 import { useGlobalContext } from './context';
 
 import Home from './containers/home';
+import About from './containers/about';
 import Guide from './containers/guide';
 import Blog from './containers/blog';
 import Footer from './components/Footer';
@@ -26,6 +27,9 @@ const App = () => {
         <Switch>
           <Route exact path="/">
             <Home />
+          </Route>
+          <Route path="/despre">
+            <About />
           </Route>
           <Route path="/ghid">
             <Guide />
