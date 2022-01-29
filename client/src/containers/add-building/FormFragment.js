@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Button, Checkbox, Col, Form, message, Row, Spin } from 'antd';
 import { Trans, t } from '@lingui/macro';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 import config from '../../config';
@@ -14,13 +14,14 @@ import { useRiskCategoriesQuery } from '../../queries';
 import { useAddBuilding } from '../../hooks/form/useAddBuilding';
 import { useIsSmallDevice } from '../../hooks/useIsSmallDevice';
 
-const { CAPTCHA_API_KEY } = config;
+const { CAPTCHA_API_KEY, BUILDINGS_URL } = config;
 
 const FormFragment = ({ form }) => {
   const [isFinished, setIsFinished] = useState(false);
   const [mapSearchText, setMapSearchText] = useState(undefined);
   const [coordinates, setCoordinates] = useState(undefined);
   const [language, setLanguage] = useState(undefined);
+  const [initialValues, setInitialValues] = useState(undefined);
   const { getFieldDecorator } = form;
   const fields = form.getFieldsValue();
   const { currentLanguage } = useGlobalContext();
@@ -36,6 +37,21 @@ const FormFragment = ({ form }) => {
     isLoading: isLoadingRiskCategories,
   } = useRiskCategoriesQuery();
 
+  const query = new URLSearchParams(useLocation().search);
+  const id = query.get('id');
+
+  React.useEffect(() => {
+    if (id)
+      fetch(`${BUILDINGS_URL}/${id}/`)
+        .then((res) => res.json())
+        .then((values) => setInitialValues(values))
+        .catch(() => {
+          setInitialValues((prevState) => ({
+            ...prevState,
+          }));
+        });
+  }, []);
+
   const onFinish = useCallback(
     (e) => {
       e.preventDefault();
@@ -45,7 +61,6 @@ const FormFragment = ({ form }) => {
           message.warning(<Trans id="form.error.validate_fields" />);
           return;
         }
-
         const isBuildingAdded = await addBuilding({ ...values, ...coordinates });
 
         if (!isBuildingAdded) {
@@ -53,7 +68,7 @@ const FormFragment = ({ form }) => {
           return;
         }
 
-        setIsFinished(true);
+        setIsFinished(false);
       });
     },
     [form, coordinates, addBuilding],
@@ -106,11 +121,16 @@ const FormFragment = ({ form }) => {
             onCoordinatesChange={onCoordinatesChange}
             mapSearchText={mapSearchText}
             riskCategories={riskCategories ?? []}
+            values={initialValues}
           />
 
           <SecondFormSection disabledFields={isErrorLoadingRiskCategories} form={form} />
 
-          <ThirdFormSection disabledFields={isErrorLoadingRiskCategories} form={form} />
+          <ThirdFormSection
+            disabledFields={isErrorLoadingRiskCategories}
+            form={form}
+            values={initialValues}
+          />
 
           <Row type="flex" gutter={16}>
             <Col xs={24} lg={16}>

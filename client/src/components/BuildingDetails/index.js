@@ -53,7 +53,7 @@ const BuildingDetails = ({ onClose, isLoading, details }) => {
             <Empty description={<Trans>Information missing</Trans>} />
           </Row>
         )}
-        <BuildingDetailsFooter />
+        <BuildingDetailsFooter buildingId={details?.general_id} />
       </Skeleton>
     </Card>
   );

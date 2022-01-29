@@ -19,6 +19,7 @@ const FirstFormSection = ({
   onCoordinatesChange,
   mapSearchText,
   riskCategories,
+  values,
 }) => {
   const [fileList, setFileList] = useState([]);
 
@@ -28,6 +29,15 @@ const FirstFormSection = ({
     () => riskCategories.map((category) => ({ value: category.value, text: category.displayName })),
     [riskCategories],
   );
+
+  React.useEffect(() => {
+    if (values) {
+      form.setFieldsValue({
+        ...values,
+        parent_id: values.general_id,
+      });
+    }
+  }, [values]);
 
   const onBeforeUploadHandler = useCallback(
     (file) => {
@@ -56,6 +66,9 @@ const FirstFormSection = ({
       <Col xs={24} lg={14}>
         <Row type="flex" gutter={20}>
           <Col xs={24} md={18}>
+            <div style={{ display: 'none' }}>
+              <FormInput colon disabled={disabledFields} fieldName="parent_id" form={form} />
+            </div>
             <FormInput
               colon
               disabled={disabledFields}
@@ -69,7 +82,7 @@ const FirstFormSection = ({
             <FormInput
               colon
               disabled={disabledFields}
-              fieldName="streetNumber"
+              fieldName="street_number"
               form={form}
               label={<Trans id="form.street_number.label" />}
               rulesOptions={[{ ruleName: 'required' }, { ruleName: 'max', value: 50 }]}
@@ -100,7 +113,7 @@ const FirstFormSection = ({
           <Col xs={24} md={12}>
             <FormSelect
               disabled={disabledFields}
-              fieldName="riskCategory"
+              fieldName="risk_category"
               form={form}
               label={<Trans id="form.risk_class.label" />}
               options={riskCategoryOptions}
@@ -110,7 +123,7 @@ const FirstFormSection = ({
           <Col xs={24} md={12}>
             <FormInput
               disabled={disabledFields}
-              fieldName="heightRegime"
+              fieldName="height_regime"
               form={form}
               label={<Trans id="form.height_regime.label" />}
               rulesOptions={[{ ruleName: 'required' }, { ruleName: 'max', value: 50 }]}

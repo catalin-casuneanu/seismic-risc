@@ -3,7 +3,7 @@ import { Button, Col, Row } from 'antd';
 import { Trans } from '@lingui/macro';
 import { InfoCircleFilled } from '@ant-design/icons';
 
-const BuildingDetailsFooter = () => (
+const BuildingDetailsFooter = ({ buildingId }) => (
   <div className="buildingDetailsFooter">
     <Row type="flex" justify="space-between" gutter={['8', '8']} style={{ alignItems: 'center' }}>
       <Col className="buildingDetails__contribute">
@@ -15,7 +15,7 @@ const BuildingDetailsFooter = () => (
       <Col>
         <Button
           className="add-building"
-          href="/adauga-cladire"
+          href={`/adauga-cladire?id=${buildingId}`}
           icon="plus-circle"
           size="large"
           type="primary"
