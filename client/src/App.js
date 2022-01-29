@@ -51,7 +51,7 @@ const App = () => {
           <Route path="/politica-de-confidentialitate">
             <Policy />
           </Route>
-          <Route path="/adauga-cladire">
+          <Route path="/adauga-cladire/:id?">
             <AddBuilding />
           </Route>
           <Route path="/multumim">
