@@ -1,3 +1,4 @@
+from urllib import response
 from django.conf import settings
 from django.contrib.postgres.search import TrigramSimilarity
 from drf_spectacular.utils import (
@@ -12,6 +13,7 @@ from rest_framework.throttling import AnonRateThrottle
 from .models import Building, BuildingProximalUtilities, BuildingWorkPerformed, Statistic
 from .serializers import (
     BuildingListSerializer,
+    BuildingRetrieveSerializer,
     BuildingSearchSerializer,
     BuildingSerializer,
     ProximalUtilitiesSerializer,
@@ -43,6 +45,8 @@ class BuildingViewSet(viewsets.ModelViewSet):
             return PublicBuildingCreateSerializer
         elif self.action == "search":
             return SearchQuerySerializer
+        elif self.action == "retrieve":
+            return BuildingRetrieveSerializer
         return BuildingSerializer
 
     @action(
